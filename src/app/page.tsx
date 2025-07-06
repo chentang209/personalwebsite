@@ -8,65 +8,86 @@ import AboutSection from '@/components/AboutSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
-// 导航栏组件
+// Apple-style design constants
+const APPLE_COLORS = {
+  black: '#1d1d1f',
+  white: '#fbfbfd',
+  gray: '#86868b',
+  blue: '#0071e3',
+  grayLight: '#f5f5f7'
+};
+
+// Apple-style navigation component
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 50;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
+      setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrolled]);
+  }, []);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          <div className="flex-shrink-0">
-            <span className="text-white text-2xl font-bold">Michael Yang</span>
-          </div>
-          
-          {/* 桌面导航 */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
-              <a href="#home" className="text-gray-300 hover:text-white transition-colors">首页</a>
-              <a href="#app" className="text-gray-300 hover:text-white transition-colors">应用展示</a>
-              <a href="#about" className="text-gray-300 hover:text-white transition-colors">关于我</a>
-              <a href="#contact" className="text-gray-300 hover:text-white transition-colors">联系我</a>
-            </div>
-          </div>
-          
-          {/* 移动端菜单按钮 */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-300 hover:text-white focus:outline-none"
-            >
-              {isOpen ? (
-                <XMarkIcon className="h-8 w-8" />
-              ) : (
-                <Bars3Icon className="h-8 w-8" />
-              )}
-            </button>
+    <nav
+      className={`fixed w-full z-50 transition-all duration-500 apple-nav ${scrolled ? 'scrolled' : ''}`}
+      style={{
+        background: scrolled ? 'rgba(251,251,253,0.95)' : 'rgba(251,251,253,0.7)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid #d2d2d7',
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.08)' : 'none',
+        padding: scrolled ? '10px 0' : '18px 0',
+      }}
+    >
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6">
+        {/* LOGO/名字 */}
+        <span className="text-xl font-semibold tracking-tight text-gray-900" style={{fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, Helvetica Neue, Arial, sans-serif'}}>Michael Yang</span>
+        {/* Desktop navigation */}
+        <div className="hidden md:flex flex-1 justify-center">
+          <div className="flex items-center space-x-8">
+            {['首页', '应用展示', '关于我', '联系我'].map((item, index) => (
+              <a
+                key={item}
+                href={`#${['home', 'app', 'about', 'contact'][index]}`}
+                className="text-gray-700 hover:text-blue-600 transition-colors text-base font-medium px-2 py-1 rounded"
+                style={{fontFamily: 'inherit'}}
+              >
+                {item}
+              </a>
+            ))}
           </div>
         </div>
+        {/* Mobile menu button */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="focus:outline-none text-gray-900 bg-white/70 rounded-full p-2 border border-gray-200 shadow-sm"
+          >
+            {isOpen ? (
+              <XMarkIcon className="h-6 w-6" />
+            ) : (
+              <Bars3Icon className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
-      
-      {/* 移动端菜单 */}
+      {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden bg-black/95 absolute w-full px-4 pb-4">
-          <div className="flex flex-col space-y-4 pt-4">
-            <a href="#home" className="text-gray-300 hover:text-white transition-colors text-lg" onClick={() => setIsOpen(false)}>首页</a>
-            <a href="#app" className="text-gray-300 hover:text-white transition-colors text-lg" onClick={() => setIsOpen(false)}>应用展示</a>
-            <a href="#about" className="text-gray-300 hover:text-white transition-colors text-lg" onClick={() => setIsOpen(false)}>关于我</a>
-            <a href="#contact" className="text-gray-300 hover:text-white transition-colors text-lg" onClick={() => setIsOpen(false)}>联系我</a>
+        <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-lg rounded-b-xl animate-fadeInUp">
+          <div className="flex flex-col items-center space-y-2 py-4">
+            {['首页', '应用展示', '关于我', '联系我'].map((item, index) => (
+              <a
+                key={item}
+                href={`#${['home', 'app', 'about', 'contact'][index]}`}
+                className="text-gray-900 hover:text-blue-600 transition-colors text-lg py-2 w-full text-center"
+                onClick={() => setIsOpen(false)}
+              >
+                {item}
+              </a>
+            ))}
           </div>
         </div>
       )}
@@ -74,84 +95,86 @@ function Navbar() {
   );
 }
 
-// 英雄区域组件
+// Apple-style hero section
 function HeroSection() {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center bg-black text-white overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/80"></div>
-      </div>
-      
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          创新科技，改变生活
-        </motion.h1>
-        <motion.p 
-          className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto"
+    <section
+      id="home"
+      className="relative min-h-[70vh] flex items-center justify-center"
+      style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        width: '100%',
+        margin: '0 auto',
+        paddingTop: '80px',
+        paddingBottom: '40px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center justify-center px-6">
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight whitespace-nowrap text-center"
+          style={{ 
+            fontWeight: 700,
+            fontSize: 'clamp(1.75rem, 5vw, 5rem)',
+            lineHeight: 1.1
+          }}
         >
-          探索我们精心打造的应用，体验前沿科技带来的无限可能
+          创新科技 改变生活
+        </motion.h1>
+        <motion.p
+          className="text-white/90 mb-10 max-w-5xl mx-auto text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          style={{
+            lineHeight: '1.5',
+            fontWeight: 400,
+            letterSpacing: '-0.01em',
+            fontSize: 'clamp(0.875rem, 1.5vw, 1.5rem)'
+          }}
+        >
+          探索我精心打造的应用，体验前沿科技带来的无限可能
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col sm:flex-row justify-center gap-4"
         >
-          <a 
-            href="#app" 
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 text-lg"
+          {/* <a
+            href="#app"
+            className="apple-button text-lg px-8 py-4 shadow-md hover:shadow-lg"
+            style={{ fontWeight: 500, fontSize: '18px' }}
           >
             探索应用
           </a>
-          <a 
-            href="#contact" 
-            className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300 text-lg"
+          <a
+            href="#contact"
+            className="apple-button-secondary text-lg px-8 py-4 border-2 border-white text-white hover:bg-white/10 hover:text-white"
+            style={{ fontWeight: 500, fontSize: '18px', borderColor: '#fff' }}
           >
             联系我
-          </a>
-        </motion.div>
-      </div>
-      
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-        <motion.div
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "loop",
-          }}
-          className="flex flex-col items-center"
-        >
-          <span className="text-sm text-gray-400 mb-2">向下滚动</span>
-          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+          </a> */}
         </motion.div>
       </div>
     </section>
   );
 }
 
-// 主页面组件
+// Apple-style main page component
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-      <main>
+      {/* <Navbar /> */}
+      <main className="w-full">
         <HeroSection />
         <AppShowcase />
         <AboutSection />
-        <ContactSection />
       </main>
       <Footer />
     </div>
