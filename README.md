@@ -1,8 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Michael Yang's Personal Website
+
+This is the personal website of Michael Yang, showcasing his portfolio and app showcase.
+
+## Features
+
+- Responsive design that works on all devices
+- Modern UI with smooth animations
+- App showcase section
+- Contact form
+- SEO optimized
+- Dark/Light mode support
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) - React framework
+- [TypeScript](https://www.typescriptlang.org/) - Type checking
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [Vercel](https://vercel.com/) - Hosting & Deployment
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -10,27 +39,47 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
 
-## Learn More
+1. [Vercel](https://vercel.com) account
+2. [GitHub](https://github.com/) account (optional, for continuous deployment)
 
-To learn more about Next.js, take a look at the following resources:
+### Deploy to Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push your code to a GitHub repository (optional but recommended)
+2. Go to [Vercel](https://vercel.com) and sign in with your GitHub account
+3. Click on "New Project"
+4. Import your GitHub repository or drag and drop your project folder
+5. Vercel will automatically detect it's a Next.js app
+6. Click "Deploy"
+7. Once deployed, you can set up a custom domain in the Vercel dashboard
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Environment Variables
 
-## Deploy on Vercel
+No environment variables are required for basic deployment. However, if you want to use the contact form, you'll need to set up an email service like SendGrid or Nodemailer.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Custom Domain Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Go to your Vercel project settings
+2. Navigate to "Domains"
+3. Enter your domain (e.g., www.michaelyanghang.com)
+4. Follow the instructions to verify domain ownership
+5. Update your domain's DNS settings as instructed by Vercel
+
+## SEO
+
+The website includes:
+- `robots.txt`
+- `sitemap.xml`
+- Meta tags
+- Semantic HTML
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
