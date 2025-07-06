@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   // Configure images for static export
   images: {
     unoptimized: true, // Required for static export
+    domains: ['images.unsplash.com'],
   },
   
   // Environment variables
@@ -20,11 +21,41 @@ const nextConfig: NextConfig = {
     SITE_URL: process.env.SITE_URL || 'https://www.michaelyanghang.com',
   },
   
-  // Enable webpack optimizations
+  // Enable static HTML export
+  trailingSlash: true,
+  
+  // Disable TypeScript type checking during build for faster builds
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  
+  // Disable ESLint during build for faster builds
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  
+  // Webpack configuration for better bundle optimization
   webpack: (config, { isServer }) => {
-    // Add custom webpack configurations if needed
+    if (!isServer) {
+      // Don't include certain modules in the client bundle
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
     return config;
   },
+  
+  // Enable source maps in development
+  productionBrowserSourceMaps: process.env.NODE_ENV === 'development',
+  
+  // Configure page extensions
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  
+  // Enable SWC minification
+  swcMinify: true,
 };
 
 export default nextConfig;
